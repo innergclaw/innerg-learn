@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw Setup in 30 Minutes — Free Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #00ff88;
+      --border: #1a1a1a;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      padding: 40px 24px;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+    
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+    
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+    
+    .meta {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    
+    .meta span {
+      color: var(--accent);
+    }
+    
+    section {
+      margin-bottom: 48px;
+    }
+    
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: var(--accent);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    p {
+      margin-bottom: 16px;
+      color: var(--text-muted);
+    }
+    
+    ul {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+      color: var(--text-muted);
+    }
+    
+    li::marker {
+      color: var(--accent);
+    }
+    
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface);
+      padding: 2px 8px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+    }
+    
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    
+    .check {
+      color: var(--accent);
+    }
+    
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      padding: 32px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    
+    .cta-box h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    
+    .cta-box p {
+      margin-bottom: 24px;
+    }
+    
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 16px 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    footer span {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="tag">FREE QUICK-START GUIDE</div>
+      <h1>OpenClaw Setup in 30 Minutes</h1>
+      <p class="subtitle">No coding required. Build your first AI agent today.</p>
+      <div class="meta">
+        <span>⏱ 30 min</span>
+        <span>📚 Beginner</span>
+        <span>🆓 100% Free</span>
+      </div>
+    </header>
+    
+    <section>
+      <h2>What You'll Learn</h2>
+      <ul>
+        <li><span class="check">✓</span> OpenClaw installed and running</li>
+        <li><span class="check">✓</span> Your first AI agent configured</li>
+        <li><span class="check">✓</span> A working memory system</li>
+        <li><span class="check">✓</span> One custom skill installed</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Step 1: Install OpenClaw (5 min)</h2>
+      <p>Run this in your terminal:</p>
+      <pre><code>npm install -g openclaw
+openclaw gateway start</code></pre>
+      <p>Verify installation:</p>
+      <pre><code>openclaw status</code></pre>
+      <p>You should see: <code>Gateway: RUNNING</code></p>
+    </section>
+    
+    <section>
+      <h2>Step 2: Configure Your Agent (10 min)</h2>
+      <p>Open your workspace folder:</p>
+      <pre><code>cd ~/.openclaw/workspace</code></pre>
+      <p>Create these files:</p>
+      <p><strong>IDENTITY.md</strong> — Who your agent is</p>
+      <pre><code># Who You Are
+- Name: [Your Agent Name]
+- Type: Personal Assistant
+- Purpose: Help with [specific tasks]</code></pre>
+      <p><strong>USER.md</strong> — About you</p>
+      <pre><code># About Your Human
+- Name: [Your Name]
+- Timezone: [Your Timezone]
+- Preferences: [How you like to work]</code></pre>
+      <p><strong>MEMORY.md</strong> — Long-term storage</p>
+      <pre><code># Long-Term Memory
+Store important information here.</code></pre>
+    </section>
+    
+    <section>
+      <h2>Step 3: Set Up Memory (5 min)</h2>
+      <p>Create the memory system:</p>
+      <pre><code>mkdir -p memory/episodic
+touch memory/episodic/$(date +%Y-%m-%d).md</code></pre>
+      <p>Your agent now has:</p>
+      <ul>
+        <li><strong>Long-term memory</strong> — MEMORY.md</li>
+        <li><strong>Daily logs</strong> — memory/episodic/</li>
+        <li><strong>Context awareness</strong> — reads these files each session</li>
+      </ul>
+    </section>
+    
+    <section>
+      <h2>Step 4: Install Your First Skill (5 min)</h2>
+      <p>Browse available skills:</p>
+      <pre><code>openclaw skills list</code></pre>
+      <p>Install the weather skill:</p>
+      <pre><code>openclaw skills install weather</code></pre>
+      <p>Test it:</p>
+      <pre><code>You: What's the weather in Philadelphia?
+Agent: *uses weather skill to get real data*</code></pre>
+    </section>
+    
+    <section>
+      <h2>Step 5: Test Everything (5 min)</h2>
+      <p>Start a chat:</p>
+      <pre><code>openclaw chat</code></pre>
+      <p>Try these prompts:</p>
+      <ol>
+        <li>"What do you know about me?"</li>
+        <li>"What's the weather today?"</li>
+        <li>"Remember that I prefer concise responses"</li>
+      </ol>
+      <p>If all three work, you're set! 🎉</p>
+    </section>
+    
+    <section>
+      <h2>What's Next?</h2>
+      <ul>
+        <li>Add more skills — calendar, web search, email</li>
+        <li>Set up automations — cron jobs, monitoring</li>
+        <li>Connect APIs — social media, databases</li>
+        <li>Build custom skills — for your specific workflow</li>
+      </ul>
+    </section>
+    
+    <div class="cta-box">
+      <h3>Want to Go Deeper?</h3>
+      <p>1-on-1 AI training with InnerG Learn</p>
+      <a href="https://innergclaw.github.io/innerg-learn/" class="cta-btn">VIEW TRAINING OPTIONS →</a>
+    </div>
+    
+    <footer>
+      <p>Built by <span>InnerG Intel</span> — Become Intelligence</p>
+    </footer>
+  </div>
+</body>
+</html>

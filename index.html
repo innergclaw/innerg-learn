@@ -477,6 +477,74 @@
       color: var(--accent);
     }
     
+    /* Lead Magnet */
+    .lead-magnet {
+      padding: 60px 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .lead-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .lead-content h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    .lead-content p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    
+    .lead-form {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .lead-form input[type="email"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--text);
+      width: 280px;
+    }
+    
+    .lead-form input[type="email"]::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .lead-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .lead-form button {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 14px 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .lead-form button:hover {
+      background: var(--accent-dim);
+    }
+    
     /* Mobile */
     @media (max-width: 768px) {
       .hero h1 { font-size: 56px; }
@@ -484,6 +552,9 @@
       .modules-grid { grid-template-columns: 1fr; }
       .contact-box { padding: 32px 40px; }
       .price-amount { font-size: 48px; }
+      .lead-box { flex-direction: column; text-align: center; }
+      .lead-form { flex-direction: column; width: 100%; }
+      .lead-form input[type="email"] { width: 100%; }
     }
   </style>
 </head>
@@ -508,6 +579,24 @@
       <div class="hero-label">AI TRAINING PROGRAM</div>
       <h1>LEARN <span class="accent">AI</span></h1>
       <p class="hero-sub">Master AI tools, agent automation, and prompt engineering. 1-on-1 training designed to give you real skills.</p>
+    </div>
+  </section>
+  
+  <!-- Lead Magnet -->
+  <section class="lead-magnet">
+    <div class="container">
+      <div class="lead-box">
+        <div class="lead-content">
+          <h3>Free Quick-Start Guide</h3>
+          <p>"OpenClaw Setup in 30 Minutes" — no coding required</p>
+        </div>
+        <form action="https://formspree.io/f/mreaqkdr" method="POST" class="lead-form">
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <input type="hidden" name="_subject" value="InnerG Learn - Free Guide Download">
+          <input type="hidden" name="_next" value="https://innergclaw.github.io/innerg-learn/guide.html">
+          <button type="submit">GET FREE GUIDE</button>
+        </form>
+      </div>
     </div>
   </section>
   
