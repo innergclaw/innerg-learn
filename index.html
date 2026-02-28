@@ -5,32 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>INNERG INTEL — LEARN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     :root {
-      --bg: #0a0a0a;
-      --surface: #111111;
-      --surface-light: #1a1a1a;
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --surface-light: #141414;
       --text: #ffffff;
-      --text-muted: #888888;
+      --text-muted: #666666;
       --accent: #00ff88;
       --accent-dim: #00cc6a;
-      --accent-glow: rgba(0, 255, 136, 0.15);
-      --border: #222222;
       --orange: #ff6b35;
+      --blue: #4ecdc4;
+      --border: #1a1a1a;
     }
     
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      overflow-x: hidden;
     }
     
-    /* Scanline effect */
+    /* Grid background */
     body::before {
       content: '';
       position: fixed;
@@ -38,32 +39,26 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.03) 2px,
-        rgba(0, 0, 0, 0.03) 4px
-      );
+      background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
       pointer-events: none;
-      z-index: 1000;
+      z-index: 0;
     }
     
     .container {
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
+      position: relative;
+      z-index: 1;
     }
     
     /* Header */
     header {
+      padding: 24px 0;
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(10px);
-      z-index: 100;
     }
     
     .header-content {
@@ -73,76 +68,106 @@
     }
     
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .logo-icon::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    
+    .logo-text {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 600;
+      letter-spacing: 3px;
+    }
+    
+    .logo-text span {
       color: var(--accent);
-      letter-spacing: 2px;
     }
     
-    .logo span {
-      color: var(--text);
-    }
-    
-    .nav-tag {
+    .header-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       background: var(--surface);
-      padding: 8px 16px;
+      padding: 10px 20px;
       border: 1px solid var(--border);
-      border-radius: 4px;
     }
     
     /* Hero */
     .hero {
-      padding: 120px 0 80px;
+      padding: 100px 0 80px;
       text-align: center;
       position: relative;
     }
     
-    .hero::before {
-      content: '';
+    .hero-glow {
       position: absolute;
-      top: 0;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
       pointer-events: none;
     }
     
-    .hero-tag {
-      display: inline-block;
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--accent);
-      background: var(--surface);
-      padding: 8px 20px;
-      border: 1px solid var(--accent);
-      margin-bottom: 32px;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
+      margin-bottom: 40px;
+    }
+    
+    .hero-label::before,
+    .hero-label::after {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
     }
     
     .hero h1 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 72px;
+      font-size: 100px;
       font-weight: 700;
-      letter-spacing: -2px;
+      letter-spacing: -4px;
       margin-bottom: 24px;
-      position: relative;
+      line-height: 0.9;
     }
     
-    .hero h1 span {
+    .hero h1 .accent {
       color: var(--accent);
+      text-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
     }
     
-    .hero p {
-      font-size: 20px;
+    .hero-sub {
+      font-size: 18px;
       color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 40px;
+      max-width: 500px;
+      margin: 0 auto 50px;
       line-height: 1.8;
     }
     
@@ -150,79 +175,93 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      background: var(--accent);
+      background: var(--orange);
       color: var(--bg);
-      padding: 18px 40px;
+      padding: 20px 48px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       text-decoration: none;
-      border: 2px solid var(--accent);
+      letter-spacing: 2px;
       transition: all 0.3s;
-      letter-spacing: 1px;
     }
     
     .hero-cta:hover {
-      background: transparent;
-      color: var(--accent);
-      box-shadow: 0 0 30px var(--accent-glow);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3);
     }
     
-    /* Topics */
-    .topics {
-      padding: 100px 0;
+    /* Modules */
+    .modules {
+      padding: 80px 0;
       background: var(--surface);
+      position: relative;
     }
     
-    .section-header {
+    .modules::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    
+    .section-title {
+      font-size: 32px;
+      font-weight: 600;
       text-align: center;
       margin-bottom: 60px;
     }
     
-    .section-header h2 {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      color: var(--accent);
-      letter-spacing: 4px;
-      margin-bottom: 16px;
-    }
-    
-    .section-header h3 {
-      font-size: 36px;
-      font-weight: 600;
-    }
-    
-    .topics-grid {
+    .modules-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
     }
     
-    .topic-card {
+    .module-card {
       background: var(--bg);
       border: 1px solid var(--border);
-      padding: 32px;
+      padding: 28px 32px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
       transition: all 0.3s;
+      cursor: default;
     }
     
-    .topic-card:hover {
+    .module-card:hover {
       border-color: var(--accent);
-      transform: translateX(8px);
+      background: var(--surface-light);
     }
     
-    .topic-number {
+    .module-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 32px;
-      font-weight: 700;
+      font-size: 11px;
       color: var(--accent);
-      opacity: 0.3;
+      background: var(--surface);
+      padding: 8px 14px;
+      border: 1px solid var(--accent);
+      opacity: 0.5;
     }
     
-    .topic-card h4 {
-      font-size: 18px;
+    .module-card:hover .module-num {
+      opacity: 1;
+    }
+    
+    .module-card h4 {
+      font-size: 16px;
       font-weight: 500;
     }
     
@@ -235,118 +274,109 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
-      max-width: 900px;
+      max-width: 800px;
       margin: 0 auto;
     }
     
-    .pricing-card {
+    .price-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      padding: 48px 40px;
-      text-align: center;
+      padding: 48px;
       position: relative;
       overflow: hidden;
     }
     
-    .pricing-card.featured {
+    .price-card.featured {
       border-color: var(--accent);
     }
     
-    .pricing-card.featured::before {
-      content: 'RECOMMENDED';
+    .price-card.featured::before {
+      content: '';
       position: absolute;
-      top: 20px;
-      right: -30px;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
       background: var(--accent);
-      color: var(--bg);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 6px 40px;
-      transform: rotate(45deg);
-      letter-spacing: 1px;
     }
     
-    .pricing-label {
+    .price-type {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      letter-spacing: 2px;
-      margin-bottom: 16px;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
     }
     
-    .pricing-price {
+    .price-amount {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 56px;
+      font-size: 64px;
       font-weight: 700;
+      line-height: 1;
       margin-bottom: 8px;
     }
     
-    .pricing-price span {
-      font-size: 24px;
-      color: var(--text-muted);
+    .price-card.featured .price-amount {
+      color: var(--accent);
     }
     
-    .pricing-duration {
-      font-size: 16px;
+    .price-duration {
+      font-size: 14px;
       color: var(--text-muted);
       margin-bottom: 32px;
-    }
-    
-    .pricing-features {
-      list-style: none;
-      text-align: left;
-      margin-bottom: 32px;
-    }
-    
-    .pricing-features li {
-      padding: 12px 0;
+      padding-bottom: 32px;
       border-bottom: 1px solid var(--border);
-      font-size: 15px;
+    }
+    
+    .price-features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    
+    .price-features li {
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      color: var(--text-muted);
     }
     
-    .pricing-features li:last-child {
-      border-bottom: none;
-    }
-    
-    .pricing-features li::before {
-      content: '>';
+    .price-features li::before {
+      content: '→';
       color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
     }
     
-    .pricing-btn {
+    .price-btn {
       display: block;
       width: 100%;
       background: transparent;
       color: var(--text);
-      padding: 16px;
+      padding: 18px;
       border: 1px solid var(--border);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       text-decoration: none;
+      text-align: center;
+      letter-spacing: 2px;
       transition: all 0.3s;
-      letter-spacing: 1px;
     }
     
-    .pricing-btn:hover {
+    .price-btn:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    
+    .price-card.featured .price-btn {
       background: var(--accent);
       color: var(--bg);
       border-color: var(--accent);
     }
     
-    .pricing-card.featured .pricing-btn {
-      background: var(--accent);
-      color: var(--bg);
-      border-color: var(--accent);
-    }
-    
-    .pricing-card.featured .pricing-btn:hover {
+    .price-card.featured .price-btn:hover {
       background: var(--accent-dim);
     }
     
@@ -356,33 +386,36 @@
       background: var(--surface);
     }
     
-    .addons-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+    .addons-wrapper {
       max-width: 600px;
       margin: 0 auto;
     }
     
-    .addon-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 24px;
+    .addon-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
     }
     
-    .addon-card h4 {
-      font-size: 16px;
-      font-weight: 500;
+    .addon-row:last-child {
+      border-bottom: none;
     }
     
-    .addon-card .price {
+    .addon-label {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+    
+    .addon-value {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 20px;
-      color: var(--orange);
+      font-size: 16px;
       font-weight: 600;
+    }
+    
+    .addon-value.highlight {
+      color: var(--orange);
     }
     
     /* Contact */
@@ -391,17 +424,24 @@
       text-align: center;
     }
     
-    .contact h2 {
+    .contact-box {
+      display: inline-block;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 48px 80px;
+    }
+    
+    .contact-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
+      font-size: 11px;
       color: var(--accent);
       letter-spacing: 4px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     
     .contact-email {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 28px;
+      font-size: 20px;
       color: var(--text);
       text-decoration: none;
       border-bottom: 2px solid var(--accent);
@@ -414,22 +454,23 @@
     }
     
     .contact-note {
-      margin-top: 24px;
-      font-size: 14px;
+      margin-top: 20px;
+      font-size: 13px;
       color: var(--text-muted);
     }
     
     /* Footer */
     footer {
-      border-top: 1px solid var(--border);
       padding: 40px 0;
+      border-top: 1px solid var(--border);
       text-align: center;
     }
     
     .footer-text {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
+      letter-spacing: 2px;
     }
     
     .footer-text span {
@@ -438,11 +479,11 @@
     
     /* Mobile */
     @media (max-width: 768px) {
-      .hero h1 { font-size: 42px; }
-      .topics-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 56px; }
       .pricing-grid { grid-template-columns: 1fr; }
-      .addons-grid { grid-template-columns: 1fr; }
-      .contact-email { font-size: 20px; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .contact-box { padding: 32px 40px; }
+      .price-amount { font-size: 48px; }
     }
   </style>
 </head>
@@ -451,58 +492,60 @@
   <header>
     <div class="container">
       <div class="header-content">
-        <div class="logo">INNERG <span>INTEL</span></div>
-        <div class="nav-tag">LEARN // 1-ON-1 CLASSES</div>
+        <div class="logo">
+          <div class="logo-icon"></div>
+          <div class="logo-text">INNERG <span>INTEL</span></div>
+        </div>
+        <div class="header-tag">LEARN // 1-ON-1 TRAINING</div>
       </div>
     </div>
   </header>
   
   <!-- Hero -->
   <section class="hero">
+    <div class="hero-glow"></div>
     <div class="container">
-      <div class="hero-tag">/// AI TRAINING PROGRAM</div>
-      <h1>LEARN <span>AI</span></h1>
-      <p>Master AI tools, agent automation, and prompt engineering. 1-on-1 training designed to give you real skills — not just theory.</p>
-      <a href="mailto:innergclaw@gmail.com" class="hero-cta">
+      <div class="hero-label">AI TRAINING PROGRAM</div>
+      <h1>LEARN <span class="accent">AI</span></h1>
+      <p class="hero-sub">Master AI tools, agent automation, and prompt engineering. 1-on-1 training designed to give you real skills.</p>
+      <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Book Session" class="hero-cta">
         BOOK YOUR SESSION →
       </a>
     </div>
   </section>
   
-  <!-- Topics -->
-  <section class="topics">
+  <!-- Modules -->
+  <section class="modules">
     <div class="container">
-      <div class="section-header">
-        <h2>// CURRICULUM</h2>
-        <h3>What You'll Learn</h3>
-      </div>
-      <div class="topics-grid">
-        <div class="topic-card">
-          <div class="topic-number">01</div>
+      <div class="section-label">// CURRICULUM</div>
+      <h2 class="section-title">What You'll Learn</h2>
+      <div class="modules-grid">
+        <div class="module-card">
+          <div class="module-num">01</div>
           <h4>Setting Up OpenClaw</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">02</div>
+        <div class="module-card">
+          <div class="module-num">02</div>
           <h4>Automating Agents</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">03</div>
+        <div class="module-card">
+          <div class="module-num">03</div>
           <h4>Prompt Engineering</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">04</div>
+        <div class="module-card">
+          <div class="module-num">04</div>
           <h4>AI Tools & Use Cases</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">05</div>
+        <div class="module-card">
+          <div class="module-num">05</div>
           <h4>AI Training & Memory</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">06</div>
+        <div class="module-card">
+          <div class="module-num">06</div>
           <h4>Skills for Agents</h4>
         </div>
-        <div class="topic-card">
-          <div class="topic-number">07</div>
+        <div class="module-card">
+          <div class="module-num">07</div>
           <h4>ChatGPT vs OpenClaw</h4>
         </div>
       </div>
@@ -512,34 +555,32 @@
   <!-- Pricing -->
   <section class="pricing">
     <div class="container">
-      <div class="section-header">
-        <h2>// PRICING</h2>
-        <h3>Choose Your Track</h3>
-      </div>
+      <div class="section-label">// PRICING</div>
+      <h2 class="section-title">Choose Your Track</h2>
       <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-label">SINGLE SESSION</div>
-          <div class="pricing-price">$150</div>
-          <div class="pricing-duration">1 Day / 3 Hours</div>
-          <ul class="pricing-features">
+        <div class="price-card">
+          <div class="price-type">SINGLE SESSION</div>
+          <div class="price-amount">$150</div>
+          <div class="price-duration">1 Day / 3 Hours</div>
+          <ul class="price-features">
             <li>Focused topic deep-dive</li>
             <li>Hands-on setup assistance</li>
             <li>Q&A throughout session</li>
             <li>Session notes provided</li>
           </ul>
-          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Single Session" class="pricing-btn">BOOK NOW</a>
+          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Single Session ($150)" class="price-btn">BOOK NOW</a>
         </div>
-        <div class="pricing-card featured">
-          <div class="pricing-label">FULL PROGRAM</div>
-          <div class="pricing-price">$300</div>
-          <div class="pricing-duration">3 Days / 3 Hours Each</div>
-          <ul class="pricing-features">
+        <div class="price-card featured">
+          <div class="price-type">FULL PROGRAM</div>
+          <div class="price-amount">$300</div>
+          <div class="price-duration">3 Days / 3 Hours Each</div>
+          <ul class="price-features">
             <li>Complete curriculum coverage</li>
             <li>Build your own AI agent</li>
             <li>Custom automation setup</li>
-            <li>Ongoing support via email</li>
+            <li>Ongoing email support</li>
           </ul>
-          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Full Program" class="pricing-btn">BOOK NOW</a>
+          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Full Program ($300)" class="price-btn">BOOK NOW</a>
         </div>
       </div>
     </div>
@@ -548,18 +589,16 @@
   <!-- Add-ons -->
   <section class="addons">
     <div class="container">
-      <div class="section-header">
-        <h2>// ADD-ONS</h2>
-        <h3>Enhance Your Learning</h3>
-      </div>
-      <div class="addons-grid">
-        <div class="addon-card">
-          <h4>Zoom Connect</h4>
-          <div class="price">Included</div>
+      <div class="section-label">// ADD-ONS</div>
+      <h2 class="section-title">Enhance Your Session</h2>
+      <div class="addons-wrapper">
+        <div class="addon-row">
+          <span class="addon-label">Zoom Connect</span>
+          <span class="addon-value">INCLUDED</span>
         </div>
-        <div class="addon-card">
-          <h4>In-Person Session</h4>
-          <div class="price">+$250</div>
+        <div class="addon-row">
+          <span class="addon-label">In-Person Session</span>
+          <span class="addon-value highlight">+$250</span>
         </div>
       </div>
     </div>
@@ -568,9 +607,11 @@
   <!-- Contact -->
   <section class="contact">
     <div class="container">
-      <h2>// GET STARTED</h2>
-      <a href="mailto:innergclaw@gmail.com" class="contact-email">innergclaw@gmail.com</a>
-      <p class="contact-note">Email to book your session or ask questions</p>
+      <div class="contact-box">
+        <div class="contact-label">// GET STARTED</div>
+        <a href="mailto:innergclaw@gmail.com" class="contact-email">innergclaw@gmail.com</a>
+        <p class="contact-note">Email to book or ask questions</p>
+      </div>
     </div>
   </section>
   
