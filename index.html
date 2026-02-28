@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INNERG INTEL — LEARN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface-light: #1a1a1a;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --accent-glow: rgba(0, 255, 136, 0.15);
+      --border: #222222;
+      --orange: #ff6b35;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    /* Scanline effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    
+    .logo span {
+      color: var(--text);
+    }
+    
+    .nav-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--surface);
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    
+    /* Hero */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--surface);
+      padding: 8px 20px;
+      border: 1px solid var(--accent);
+      margin-bottom: 32px;
+      letter-spacing: 3px;
+    }
+    
+    .hero h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .hero h1 span {
+      color: var(--accent);
+    }
+    
+    .hero p {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 18px 40px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid var(--accent);
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+    
+    .hero-cta:hover {
+      background: transparent;
+      color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+    
+    /* Topics */
+    .topics {
+      padding: 100px 0;
+      background: var(--surface);
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-header h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      margin-bottom: 16px;
+    }
+    
+    .section-header h3 {
+      font-size: 36px;
+      font-weight: 600;
+    }
+    
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    
+    .topic-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s;
+    }
+    
+    .topic-card:hover {
+      border-color: var(--accent);
+      transform: translateX(8px);
+    }
+    
+    .topic-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.3;
+    }
+    
+    .topic-card h4 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    /* Pricing */
+    .pricing {
+      padding: 100px 0;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pricing-card.featured {
+      border-color: var(--accent);
+    }
+    
+    .pricing-card.featured::before {
+      content: 'RECOMMENDED';
+      position: absolute;
+      top: 20px;
+      right: -30px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 6px 40px;
+      transform: rotate(45deg);
+      letter-spacing: 1px;
+    }
+    
+    .pricing-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    
+    .pricing-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .pricing-price span {
+      font-size: 24px;
+      color: var(--text-muted);
+    }
+    
+    .pricing-duration {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 32px;
+    }
+    
+    .pricing-features li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+    
+    .pricing-features li::before {
+      content: '>';
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+    
+    .pricing-btn {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+      padding: 16px;
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+    }
+    
+    .pricing-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    
+    .pricing-card.featured .pricing-btn {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    
+    .pricing-card.featured .pricing-btn:hover {
+      background: var(--accent-dim);
+    }
+    
+    /* Add-ons */
+    .addons {
+      padding: 60px 0 100px;
+      background: var(--surface);
+    }
+    
+    .addons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .addon-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .addon-card h4 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    
+    .addon-card .price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      color: var(--orange);
+      font-weight: 600;
+    }
+    
+    /* Contact */
+    .contact {
+      padding: 100px 0;
+      text-align: center;
+    }
+    
+    .contact h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+    }
+    
+    .contact-email {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 4px;
+      transition: all 0.3s;
+    }
+    
+    .contact-email:hover {
+      color: var(--accent);
+    }
+    
+    .contact-note {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    .footer-text span {
+      color: var(--accent);
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 42px; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .addons-grid { grid-template-columns: 1fr; }
+      .contact-email { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">INNERG <span>INTEL</span></div>
+        <div class="nav-tag">LEARN // 1-ON-1 CLASSES</div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-tag">/// AI TRAINING PROGRAM</div>
+      <h1>LEARN <span>AI</span></h1>
+      <p>Master AI tools, agent automation, and prompt engineering. 1-on-1 training designed to give you real skills — not just theory.</p>
+      <a href="mailto:innergclaw@gmail.com" class="hero-cta">
+        BOOK YOUR SESSION →
+      </a>
+    </div>
+  </section>
+  
+  <!-- Topics -->
+  <section class="topics">
+    <div class="container">
+      <div class="section-header">
+        <h2>// CURRICULUM</h2>
+        <h3>What You'll Learn</h3>
+      </div>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <div class="topic-number">01</div>
+          <h4>Setting Up OpenClaw</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">02</div>
+          <h4>Automating Agents</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">03</div>
+          <h4>Prompt Engineering</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">04</div>
+          <h4>AI Tools & Use Cases</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">05</div>
+          <h4>AI Training & Memory</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">06</div>
+          <h4>Skills for Agents</h4>
+        </div>
+        <div class="topic-card">
+          <div class="topic-number">07</div>
+          <h4>ChatGPT vs OpenClaw</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Pricing -->
+  <section class="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>// PRICING</h2>
+        <h3>Choose Your Track</h3>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-label">SINGLE SESSION</div>
+          <div class="pricing-price">$150</div>
+          <div class="pricing-duration">1 Day / 3 Hours</div>
+          <ul class="pricing-features">
+            <li>Focused topic deep-dive</li>
+            <li>Hands-on setup assistance</li>
+            <li>Q&A throughout session</li>
+            <li>Session notes provided</li>
+          </ul>
+          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Single Session" class="pricing-btn">BOOK NOW</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-label">FULL PROGRAM</div>
+          <div class="pricing-price">$300</div>
+          <div class="pricing-duration">3 Days / 3 Hours Each</div>
+          <ul class="pricing-features">
+            <li>Complete curriculum coverage</li>
+            <li>Build your own AI agent</li>
+            <li>Custom automation setup</li>
+            <li>Ongoing support via email</li>
+          </ul>
+          <a href="mailto:innergclaw@gmail.com?subject=InnerG Learn - Full Program" class="pricing-btn">BOOK NOW</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Add-ons -->
+  <section class="addons">
+    <div class="container">
+      <div class="section-header">
+        <h2>// ADD-ONS</h2>
+        <h3>Enhance Your Learning</h3>
+      </div>
+      <div class="addons-grid">
+        <div class="addon-card">
+          <h4>Zoom Connect</h4>
+          <div class="price">Included</div>
+        </div>
+        <div class="addon-card">
+          <h4>In-Person Session</h4>
+          <div class="price">+$250</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact -->
+  <section class="contact">
+    <div class="container">
+      <h2>// GET STARTED</h2>
+      <a href="mailto:innergclaw@gmail.com" class="contact-email">innergclaw@gmail.com</a>
+      <p class="contact-note">Email to book your session or ask questions</p>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="footer-text">INNERG INTEL <span>//</span> BECOME INTELLIGENCE</p>
+    </div>
+  </footer>
+</body>
+</html>
