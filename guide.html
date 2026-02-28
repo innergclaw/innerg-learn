@@ -12,6 +12,7 @@
     :root {
       --bg: #000000;
       --surface: #0a0a0a;
+      --surface-light: #141414;
       --text: #ffffff;
       --text-muted: #888888;
       --accent: #00ff88;
@@ -22,12 +23,12 @@
       font-family: 'Space Grotesk', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.8;
+      line-height: 1.9;
       padding: 40px 24px;
     }
     
     .container {
-      max-width: 700px;
+      max-width: 750px;
       margin: 0 auto;
     }
     
@@ -48,13 +49,16 @@
     
     h1 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 36px;
+      font-size: 32px;
       margin-bottom: 16px;
+      line-height: 1.2;
     }
     
     .subtitle {
       color: var(--text-muted);
-      font-size: 16px;
+      font-size: 18px;
+      max-width: 500px;
+      margin: 0 auto;
     }
     
     .meta {
@@ -70,22 +74,76 @@
       color: var(--accent);
     }
     
-    section {
+    .intro-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px;
       margin-bottom: 48px;
+    }
+    
+    .intro-box h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+    
+    .intro-box p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    
+    section {
+      margin-bottom: 56px;
+    }
+    
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 6px 12px;
+      font-weight: 600;
+    }
+    
+    .step-time {
+      font-size: 13px;
+      color: var(--text-muted);
     }
     
     h2 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
-      color: var(--accent);
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      font-size: 20px;
+      margin-bottom: 16px;
     }
     
     p {
       margin-bottom: 16px;
       color: var(--text-muted);
+      font-size: 15px;
+    }
+    
+    .explain {
+      background: var(--surface-light);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    
+    .explain strong {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     ul {
@@ -94,8 +152,9 @@
     }
     
     li {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       color: var(--text-muted);
+      font-size: 15px;
     }
     
     li::marker {
@@ -105,9 +164,10 @@
     code {
       font-family: 'JetBrains Mono', monospace;
       background: var(--surface);
-      padding: 2px 8px;
+      padding: 3px 8px;
       font-size: 13px;
       border: 1px solid var(--border);
+      color: var(--accent);
     }
     
     pre {
@@ -115,14 +175,47 @@
       border: 1px solid var(--border);
       padding: 20px;
       overflow-x: auto;
-      margin-bottom: 20px;
-      font-size: 13px;
+      margin: 16px 0 24px 0;
+      font-size: 14px;
+      line-height: 1.6;
     }
     
     pre code {
       background: none;
       border: none;
       padding: 0;
+      color: var(--text);
+    }
+    
+    .code-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .warning {
+      background: rgba(255, 107, 53, 0.1);
+      border-left: 3px solid #ff6b35;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    
+    .warning strong {
+      color: #ff6b35;
+    }
+    
+    .success {
+      background: rgba(0, 255, 136, 0.1);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    
+    .success strong {
+      color: var(--accent);
     }
     
     .check {
@@ -132,14 +225,14 @@
     .cta-box {
       background: var(--surface);
       border: 1px solid var(--accent);
-      padding: 32px;
+      padding: 40px;
       text-align: center;
       margin-top: 60px;
     }
     
     .cta-box h3 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 12px;
     }
     
@@ -151,9 +244,9 @@
       display: inline-block;
       background: var(--accent);
       color: var(--bg);
-      padding: 16px 32px;
+      padding: 18px 36px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       letter-spacing: 1px;
@@ -171,116 +264,382 @@
     footer span {
       color: var(--accent);
     }
+    
+    @media (max-width: 600px) {
+      h1 { font-size: 26px; }
+      .meta { flex-direction: column; gap: 8px; }
+      pre { padding: 16px; font-size: 13px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="tag">FREE QUICK-START GUIDE</div>
+      <div class="tag">FREE BEGINNER'S GUIDE</div>
       <h1>OpenClaw Setup in 30 Minutes</h1>
-      <p class="subtitle">No coding required. Build your first AI agent today.</p>
+      <p class="subtitle">The complete walkthrough for setting up your first AI agent — even if you've never used a terminal before.</p>
       <div class="meta">
         <span>⏱ 30 min</span>
-        <span>📚 Beginner</span>
+        <span>📚 True Beginner</span>
         <span>🆓 100% Free</span>
       </div>
     </header>
     
+    <div class="intro-box">
+      <h3>What This Guide Covers</h3>
+      <p>By the end, you'll have a working AI assistant on your computer that can remember conversations, run automations, and actually help you with real tasks. No coding experience needed.</p>
+    </div>
+    
+    <!-- PREREQUISITES -->
     <section>
-      <h2>What You'll Learn</h2>
+      <div class="step-header">
+        <div class="step-num">BEFORE YOU START</div>
+        <div class="step-time">5 min setup</div>
+      </div>
+      <h2>What You Need First</h2>
+      
+      <p>OpenClaw runs on something called <strong>Node.js</strong>. Think of Node.js as the engine — OpenClaw is the car. You need the engine installed first.</p>
+      
+      <div class="explain">
+        <strong>What is Node.js?</strong>
+        It's a program that lets JavaScript (the language websites use) run on your computer instead of just in a browser. OpenClaw is built with JavaScript, so it needs Node.js to work.
+      </div>
+      
+      <p><strong>Step 1: Check if you already have Node.js</strong></p>
+      
+      <p>Open your terminal:</p>
       <ul>
-        <li><span class="check">✓</span> OpenClaw installed and running</li>
-        <li><span class="check">✓</span> Your first AI agent configured</li>
-        <li><span class="check">✓</span> A working memory system</li>
-        <li><span class="check">✓</span> One custom skill installed</li>
+        <li><strong>Mac:</strong> Press Cmd + Space, type "Terminal", press Enter</li>
+        <li><strong>Windows:</strong> Press Windows key, type "Command Prompt" or "PowerShell", press Enter</li>
       </ul>
-    </section>
-    
-    <section>
-      <h2>Step 1: Install OpenClaw (5 min)</h2>
-      <p>Run this in your terminal:</p>
-      <pre><code>npm install -g openclaw
-openclaw gateway start</code></pre>
-      <p>Verify installation:</p>
-      <pre><code>openclaw status</code></pre>
-      <p>You should see: <code>Gateway: RUNNING</code></p>
-    </section>
-    
-    <section>
-      <h2>Step 2: Configure Your Agent (10 min)</h2>
-      <p>Open your workspace folder:</p>
-      <pre><code>cd ~/.openclaw/workspace</code></pre>
-      <p>Create these files:</p>
-      <p><strong>IDENTITY.md</strong> — Who your agent is</p>
-      <pre><code># Who You Are
-- Name: [Your Agent Name]
-- Type: Personal Assistant
-- Purpose: Help with [specific tasks]</code></pre>
-      <p><strong>USER.md</strong> — About you</p>
-      <pre><code># About Your Human
-- Name: [Your Name]
-- Timezone: [Your Timezone]
-- Preferences: [How you like to work]</code></pre>
-      <p><strong>MEMORY.md</strong> — Long-term storage</p>
-      <pre><code># Long-Term Memory
-Store important information here.</code></pre>
-    </section>
-    
-    <section>
-      <h2>Step 3: Set Up Memory (5 min)</h2>
-      <p>Create the memory system:</p>
-      <pre><code>mkdir -p memory/episodic
-touch memory/episodic/$(date +%Y-%m-%d).md</code></pre>
-      <p>Your agent now has:</p>
-      <ul>
-        <li><strong>Long-term memory</strong> — MEMORY.md</li>
-        <li><strong>Daily logs</strong> — memory/episodic/</li>
-        <li><strong>Context awareness</strong> — reads these files each session</li>
-      </ul>
-    </section>
-    
-    <section>
-      <h2>Step 4: Install Your First Skill (5 min)</h2>
-      <p>Browse available skills:</p>
-      <pre><code>openclaw skills list</code></pre>
-      <p>Install the weather skill:</p>
-      <pre><code>openclaw skills install weather</code></pre>
-      <p>Test it:</p>
-      <pre><code>You: What's the weather in Philadelphia?
-Agent: *uses weather skill to get real data*</code></pre>
-    </section>
-    
-    <section>
-      <h2>Step 5: Test Everything (5 min)</h2>
-      <p>Start a chat:</p>
-      <pre><code>openclaw chat</code></pre>
-      <p>Try these prompts:</p>
+      
+      <p class="code-label">Type this and press Enter:</p>
+      <pre><code>node --version</code></pre>
+      
+      <p><strong>If you see a number like <code>v20.10.0</code></strong> — you're good! Skip to the next section.</p>
+      
+      <p><strong>If you see "command not found" or an error</strong> — you need to install Node.js.</p>
+      
+      <p><strong>Step 2: Install Node.js</strong></p>
+      
       <ol>
-        <li>"What do you know about me?"</li>
-        <li>"What's the weather today?"</li>
-        <li>"Remember that I prefer concise responses"</li>
+        <li>Go to <strong>nodejs.org</strong></li>
+        <li>Click the big download button (it picks the right version for your computer automatically)</li>
+        <li>Open the downloaded file and follow the installer steps</li>
+        <li>When it finishes, close your terminal and open it again</li>
       </ol>
-      <p>If all three work, you're set! 🎉</p>
+      
+      <p class="code-label">Verify it worked:</p>
+      <pre><code>node --version</code></pre>
+      
+      <div class="success">
+        <strong>You should see:</strong> A version number like <code>v20.10.0</code> or higher
+      </div>
     </section>
     
+    <!-- STEP 1: INSTALL OPENCLAW -->
     <section>
-      <h2>What's Next?</h2>
+      <div class="step-header">
+        <div class="step-num">STEP 1</div>
+        <div class="step-time">5 min</div>
+      </div>
+      <h2>Install OpenClaw</h2>
+      
+      <p>Now that Node.js is ready, let's install OpenClaw.</p>
+      
+      <div class="explain">
+        <strong>What we're about to do:</strong>
+        We're going to use npm (Node Package Manager) — it comes with Node.js and is like an app store for developer tools. One command downloads and installs OpenClaw for you.
+      </div>
+      
+      <p class="code-label">In your terminal, type this and press Enter:</p>
+      <pre><code>npm install -g openclaw</code></pre>
+      
+      <div class="warning">
+        <strong>This might take 1-2 minutes.</strong> You'll see a bunch of text scroll by. That's normal. Wait until you see your command prompt again (the line where you can type).
+      </div>
+      
+      <p><strong>What that command does:</strong></p>
       <ul>
-        <li>Add more skills — calendar, web search, email</li>
-        <li>Set up automations — cron jobs, monitoring</li>
-        <li>Connect APIs — social media, databases</li>
-        <li>Build custom skills — for your specific workflow</li>
+        <li><code>npm</code> — calls the Node package manager</li>
+        <li><code>install</code> — tells it to install something</li>
+        <li><code>-g</code> — means "global" (install it for your whole computer, not just one folder)</li>
+        <li><code>openclaw</code> — the name of the package to install</li>
+      </ul>
+      
+      <p class="code-label">Verify it worked:</p>
+      <pre><code>openclaw --version</code></pre>
+      
+      <div class="success">
+        <strong>You should see:</strong> A version number like <code>1.2.0</code> or higher
+      </div>
+    </section>
+    
+    <!-- STEP 2: START THE GATEWAY -->
+    <section>
+      <div class="step-header">
+        <div class="step-num">STEP 2</div>
+        <div class="step-time">3 min</div>
+      </div>
+      <h2>Start the OpenClaw Gateway</h2>
+      
+      <p>OpenClaw has two parts: the <strong>Gateway</strong> (runs in the background) and the <strong>Agent</strong> (what you talk to). Let's start the Gateway first.</p>
+      
+      <div class="explain">
+        <strong>What is the Gateway?</strong>
+        Think of it like a server that runs on your machine. It handles all the behind-the-scenes work — connecting to AI models, managing memory, running automations. Your agent can't work without it.
+      </div>
+      
+      <p class="code-label">Start the Gateway:</p>
+      <pre><code>openclaw gateway start</code></pre>
+      
+      <p>You should see something like:</p>
+      <pre><code>✓ Gateway started on http://localhost:3000</code></pre>
+      
+      <div class="warning">
+        <strong>Important:</strong> The Gateway needs to keep running. Don't close this terminal window. You can minimize it, but leave it open in the background.
+      </div>
+      
+      <p><strong>Open a NEW terminal window</strong> (Cmd+T on Mac, Ctrl+T on Windows) for the remaining steps.</p>
+      
+      <p class="code-label">Verify the Gateway is running:</p>
+      <pre><code>openclaw status</code></pre>
+      
+      <div class="success">
+        <strong>You should see:</strong> <code>Gateway: RUNNING</code>
+      </div>
+    </section>
+    
+    <!-- STEP 3: SET UP YOUR WORKSPACE -->
+    <section>
+      <div class="step-header">
+        <div class="step-num">STEP 3</div>
+        <div class="step-time">7 min</div>
+      </div>
+      <h2>Set Up Your Workspace</h2>
+      
+      <p>OpenClaw needs a folder to store everything — your agent's memory, configuration, skills, etc. Let's create that.</p>
+      
+      <div class="explain">
+        <strong>What is the workspace?</strong>
+        It's a folder on your computer where OpenClaw stores all its files. Think of it as your agent's brain — everything it knows and learns goes here.
+      </div>
+      
+      <p class="code-label">Navigate to the workspace (OpenClaw creates it automatically):</p>
+      <pre><code>cd ~/.openclaw/workspace</code></pre>
+      
+      <p><strong>What that means:</strong></p>
+      <ul>
+        <li><code>cd</code> — "change directory" (like double-clicking a folder)</li>
+        <li><code>~</code> — your home folder</li>
+        <li><code>.openclaw</code> — a hidden folder (the dot makes it hidden) where OpenClaw lives</li>
+        <li><code>workspace</code> — the folder where your agent's files go</li>
+      </ul>
+      
+      <p><strong>If you get an error that the folder doesn't exist:</strong></p>
+      <pre><code>mkdir -p ~/.openclaw/workspace
+cd ~/.openclaw/workspace</code></pre>
+      
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 32px 0;">
+      
+      <p><strong>Now let's create the three most important files:</strong></p>
+      
+      <h3 style="font-size: 16px; margin: 24px 0 12px; color: var(--accent);">File 1: IDENTITY.md</h3>
+      <p>This tells your agent who it is.</p>
+      
+      <p class="code-label">Create the file:</p>
+      <pre><code>nano IDENTITY.md</code></pre>
+      
+      <p>This opens a simple text editor in your terminal.</p>
+      
+      <p class="code-label">Type (or paste) this:</p>
+      <pre><code># Who You Are
+
+- Name: InnerG
+- Type: Personal AI Assistant  
+- Purpose: Help with daily tasks, answer questions, automate workflows
+- Voice: Direct, helpful, no fluff</code></pre>
+      
+      <p><strong>To save and exit:</strong></p>
+      <ul>
+        <li>Press <code>Ctrl + O</code> then <code>Enter</code> to save</li>
+        <li>Press <code>Ctrl + X</code> to exit</li>
+      </ul>
+      
+      <h3 style="font-size: 16px; margin: 24px 0 12px; color: var(--accent);">File 2: USER.md</h3>
+      <p>This tells your agent who YOU are.</p>
+      
+      <p class="code-label">Create the file:</p>
+      <pre><code>nano USER.md</code></pre>
+      
+      <p class="code-label">Type (or paste) this — customize it for yourself:</p>
+      <pre><code># About Your Human
+
+- Name: [Your Name]
+- Location: [Your City]
+- Timezone: [Your Timezone, e.g., America/New_York]
+- What I do: [Your job/hobbies]
+- How I like to communicate: [Short answers? Detailed explanations?]</code></pre>
+      
+      <p>Save and exit (<code>Ctrl + O</code>, Enter, <code>Ctrl + X</code>)</p>
+      
+      <h3 style="font-size: 16px; margin: 24px 0 12px; color: var(--accent);">File 3: MEMORY.md</h3>
+      <p>This is your agent's long-term memory. It starts empty and grows over time.</p>
+      
+      <p class="code-label">Create the file:</p>
+      <pre><code>nano MEMORY.md</code></pre>
+      
+      <p class="code-label">Type this:</p>
+      <pre><code># Long-Term Memory
+
+Important things to remember go here.
+
+## Projects
+[Your agent will add things here as it learns]
+
+## Preferences
+[Your agent will remember what you like]
+
+## Key Dates
+[Important dates your agent should know]</code></pre>
+      
+      <p>Save and exit (<code>Ctrl + O</code>, Enter, <code>Ctrl + X</code>)</p>
+      
+      <div class="success">
+        <strong>Congrats!</strong> Your agent now has an identity, knows who you are, and has a place to store memories.
+      </div>
+    </section>
+    
+    <!-- STEP 4: SET UP MEMORY FOLDER -->
+    <section>
+      <div class="step-header">
+        <div class="step-num">STEP 4</div>
+        <div class="step-time">3 min</div>
+      </div>
+      <h2>Set Up Daily Memory</h2>
+      
+      <p>Besides long-term memory, your agent also keeps daily logs — like a journal.</p>
+      
+      <div class="explain">
+        <strong>Why daily memory matters:</strong>
+        Each day gets its own file. This lets your agent remember what happened on specific days, track progress over time, and stay organized. It's like having a daily notebook that your agent writes in.
+      </div>
+      
+      <p class="code-label">Create the memory folder structure:</p>
+      <pre><code>mkdir -p memory/episodic</code></pre>
+      
+      <p><strong>What this does:</strong></p>
+      <ul>
+        <li><code>mkdir</code> — "make directory" (create folder)</li>
+        <li><code>-p</code> — create parent folders too if they don't exist</li>
+        <li><code>memory/episodic</code> — the folder path (memory folder, episodic subfolder)</li>
+      </ul>
+      
+      <p class="code-label">Create today's log file:</p>
+      <pre><code>touch memory/episodic/$(date +%Y-%m-%d).md</code></pre>
+      
+      <p><strong>What that does:</strong></p>
+      <ul>
+        <li><code>touch</code> — creates an empty file</li>
+        <li><code>$(date +%Y-%m-%d)</code> — automatically inserts today's date (like 2026-02-28)</li>
+      </ul>
+      
+      <div class="success">
+        <strong>Your agent now has:</strong>
+        <br>• Long-term memory (MEMORY.md)
+        <br>• Daily logs (memory/episodic/)
+        <br>• Context about who you both are (IDENTITY.md + USER.md)
+      </div>
+    </section>
+    
+    <!-- STEP 5: CHAT WITH YOUR AGENT -->
+    <section>
+      <div class="step-header">
+        <div class="step-num">STEP 5</div>
+        <div class="step-time">5 min</div>
+      </div>
+      <h2>Start Chatting</h2>
+      
+      <p>Everything is set up. Time to talk to your agent.</p>
+      
+      <p class="code-label">Start a chat session:</p>
+      <pre><code>openclaw chat</code></pre>
+      
+      <p>You'll see a prompt where you can type messages. Try these:</p>
+      
+      <div class="explain">
+        <strong>Test 1: Memory Check</strong>
+        Type: <code>What do you know about me?</code>
+        <br><br>
+        Your agent should read USER.md and tell you what it knows. This proves the memory system is working.
+      </div>
+      
+      <div class="explain">
+        <strong>Test 2: Teach It Something</strong>
+        Type: <code>Remember that I'm working on a project called InnerG Learn</code>
+        <br><br>
+        Your agent should confirm it will remember this. Check MEMORY.md later — it should be there.
+      </div>
+      
+      <div class="explain">
+        <strong>Test 3: Ask for Help</strong>
+        Type: <code>Help me brainstorm 5 YouTube video ideas about AI automation</code>
+        <br><br>
+        Your agent should generate ideas based on what it knows about you.
+      </div>
+      
+      <p><strong>To exit the chat:</strong> Type <code>exit</code> or press <code>Ctrl + C</code></p>
+    </section>
+    
+    <!-- WHAT'S NEXT -->
+    <section>
+      <div class="step-header">
+        <div class="step-num">NEXT STEPS</div>
+        <div class="step-time">Ongoing</div>
+      </div>
+      <h2>What You Can Do Now</h2>
+      
+      <p>You have a working AI agent. Here's what to explore next:</p>
+      
+      <ul>
+        <li><strong>Add skills:</strong> <code>openclaw skills list</code> — see what your agent can learn</li>
+        <li><strong>Install a skill:</strong> <code>openclaw skills install weather</code> — gives your agent weather abilities</li>
+        <li><strong>Set up automations:</strong> Schedule your agent to do things automatically (cron jobs)</li>
+        <li><strong>Connect to Telegram/Discord:</strong> Chat with your agent from your phone</li>
+        <li><strong>Build custom skills:</strong> Teach your agent to do things specific to your workflow</li>
       </ul>
     </section>
     
+    <!-- TROUBLESHOOTING -->
+    <section>
+      <h2>Common Issues & Fixes</h2>
+      
+      <p><strong>"command not found: node"</strong></p>
+      <p>→ Node.js isn't installed or wasn't added to your PATH. Reinstall from nodejs.org and restart your terminal.</p>
+      
+      <p><strong>"command not found: openclaw"</strong></p>
+      <p>→ OpenClaw didn't install correctly. Try <code>npm install -g openclaw</code> again. If that fails, you might need to use <code>sudo npm install -g openclaw</code> (Mac/Linux).</p>
+      
+      <p><strong>"Gateway won't start" or "Port 3000 in use"</strong></p>
+      <p>→ Something else is using port 3000. Find it with <code>lsof -i :3000</code> (Mac/Linux) and kill it, or change OpenClaw's port in the config.</p>
+      
+      <p><strong>"Agent doesn't remember anything"</strong></p>
+      <p>→ Make sure MEMORY.md exists in your workspace folder. The agent needs that file to store long-term memories.</p>
+      
+      <p><strong>"Chat is really slow"</strong></p>
+      <p>→ Your agent might be using a slow AI model. Check your config to make sure you're using a faster model like GPT-4 or Claude.</p>
+    </section>
+    
+    <!-- CTA -->
     <div class="cta-box">
-      <h3>Want to Go Deeper?</h3>
-      <p>1-on-1 AI training with InnerG Learn</p>
+      <h3>Want Hands-On Help?</h3>
+      <p>1-on-1 training to build your complete AI system</p>
       <a href="https://innergclaw.github.io/innerg-learn/" class="cta-btn">VIEW TRAINING OPTIONS →</a>
     </div>
     
     <footer>
       <p>Built by <span>InnerG Intel</span> — Become Intelligence</p>
+      <p style="margin-top: 12px; font-size: 12px;">Questions? Email innergclaw@gmail.com</p>
     </footer>
   </div>
 </body>
