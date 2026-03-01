@@ -225,7 +225,7 @@
     
     .problem-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
     
@@ -474,6 +474,11 @@
       .problem-grid { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
     }
+    
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .problem-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -521,7 +526,7 @@
           <div class="problem-card">
             <h4>Teachers</h4>
             <ul>
-              <li>Don't know how to use AI tools</li>
+              <li>Don't know how to use AI tools effectively</li>
               <li>Spending hours on tasks AI could do in minutes</li>
               <li>Worried about students using AI to cheat</li>
               <li>No training or support available</li>
@@ -530,10 +535,19 @@
           <div class="problem-card">
             <h4>Administrators</h4>
             <ul>
-              <li>No AI policy in place</li>
-              <li>Unclear how to handle AI in classrooms</li>
-              <li>Pressure from parents and board</li>
-              <li>Students already using AI unsupervised</li>
+              <li>No AI policy or data governance in place</li>
+              <li>Unclear which AI tools are FERPA-compliant</li>
+              <li>Staff pasting student data into unsecured AI tools</li>
+              <li>Pressure from parents and board for a plan</li>
+            </ul>
+          </div>
+          <div class="problem-card">
+            <h4>Security & Compliance</h4>
+            <ul>
+              <li>No Data Loss Prevention (DLP) strategy for AI</li>
+              <li>Student PII being exposed to third-party AI models</li>
+              <li>No guidelines on what data can/can't be shared with AI</li>
+              <li>Legal and liability risks from unchecked AI use</li>
             </ul>
           </div>
         </div>
@@ -557,7 +571,7 @@
               <li>5 hours of teacher training</li>
               <li>AI for lesson planning</li>
               <li>Detecting AI-written work</li>
-              <li>Watch at your own pace</li>
+              <li>Data safety: what NOT to share with AI</li>
               <li>Access for 1 year</li>
             </ul>
             <a href="mailto:innergclaw@gmail.com?subject=School Training - Video Course" class="pricing-btn">GET STARTED</a>
@@ -570,8 +584,8 @@
             <ul class="pricing-features">
               <li>3-hour live workshop</li>
               <li>Interactive Q&A throughout</li>
-              <li>Hands-on practice activities</li>
-              <li>AI policy template included</li>
+              <li>FERPA-compliant AI tool recommendations</li>
+              <li>AI policy template + DLP guidelines</li>
               <li>Recording for future reference</li>
             </ul>
             <a href="mailto:innergclaw@gmail.com?subject=School Training - Virtual Workshop" class="pricing-btn">GET STARTED</a>
@@ -583,9 +597,9 @@
             <div class="pricing-note">Math, English, Science, etc.</div>
             <ul class="pricing-features">
               <li>2-hour focused training</li>
-              <li>Department-specific tools</li>
+              <li>Department-specific AI tools</li>
+              <li>Safe data handling practices</li>
               <li>Up to 15 teachers</li>
-              <li>Customized examples</li>
               <li>Resource guide included</li>
             </ul>
             <a href="mailto:innergclaw@gmail.com?subject=School Training - Department" class="pricing-btn">GET STARTED</a>
