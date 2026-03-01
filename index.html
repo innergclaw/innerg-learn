@@ -167,8 +167,45 @@
       font-size: 18px;
       color: var(--text-muted);
       max-width: 500px;
-      margin: 0 auto 50px;
+      margin: 0 auto 30px;
       line-height: 1.8;
+    }
+    
+    /* B2B Button */
+    .b2b-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--orange) 0%, #ff8c5a 100%);
+      color: var(--bg);
+      padding: 18px 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 1px;
+      border-radius: 4px;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    
+    .b2b-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    }
+    
+    .b2b-icon {
+      font-size: 18px;
+    }
+    
+    .b2b-arrow {
+      font-size: 16px;
+      transition: transform 0.3s;
+    }
+    
+    .b2b-btn:hover .b2b-arrow {
+      transform: translateX(4px);
     }
     
     .hero-cta {
@@ -579,6 +616,13 @@
       <div class="hero-label">AI TRAINING PROGRAM</div>
       <h1>LEARN <span class="accent">AI</span></h1>
       <p class="hero-sub">Master AI tools, agent automation, and prompt engineering. 1-on-1 training designed to give you real skills.</p>
+      
+      <!-- B2B CTA Button -->
+      <a href="b2b.html" class="b2b-btn">
+        <span class="b2b-icon">🏢</span>
+        INNERG LEARN: FOR EDUCATION INSTITUTIONS & WORKPLACES
+        <span class="b2b-arrow">→</span>
+      </a>
     </div>
   </section>
   
