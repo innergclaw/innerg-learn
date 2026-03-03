@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InnerG Prompt Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --border: #1a1a1a;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    
+    /* Page setup for PDF */
+    @page {
+      size: letter;
+      margin: 0.75in;
+    }
+    
+    @media print {
+      body { background: white; color: black; }
+      .page { page-break-after: always; }
+      .no-print { display: none; }
+    }
+    
+    .page {
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      min-height: 11in;
+    }
+    
+    /* Cover Page */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 10in;
+    }
+    
+    .cover-logo {
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    
+    .cover-logo::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+    }
+    
+    .cover-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+    
+    .cover-title span {
+      color: var(--accent);
+    }
+    
+    .cover-tagline {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 60px;
+    }
+    
+    .cover-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+    }
+    
+    .cover-version {
+      margin-top: 80px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #444;
+    }
+    
+    /* Section Headers */
+    .section-header {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    
+    .section-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    
+    /* Prompt Blocks */
+    .prompt-block {
+      margin-bottom: 32px;
+    }
+    
+    .prompt-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    
+    .prompt-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    
+    .prompt-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+    
+    .prompt-box code {
+      color: var(--text);
+    }
+    
+    .prompt-var {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+    
+    /* TOC */
+    .toc {
+      margin-bottom: 60px;
+    }
+    
+    .toc-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    
+    .toc-item span:last-child {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    
+    /* Footer */
+    .page-footer {
+      position: absolute;
+      bottom: 0.5in;
+      left: 0.75in;
+      right: 0.75in;
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #444;
+    }
+    
+    /* Print button */
+    .no-print {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 12px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    
+    .no-print:hover {
+      background: var(--accent-dim);
+    }
+  </style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">PRINT TO PDF</button>
+
+<!-- COVER PAGE -->
+<div class="page cover">
+  <div class="cover-logo"></div>
+  <h1 class="cover-title">INNERG <span>PROMPT</span> VAULT</h1>
+  <p class="cover-tagline">Prompts that actually work.<br>For creators who actually ship.</p>
+  <p class="cover-meta">100+ BATTLE-TESTED AI PROMPTS</p>
+  <p class="cover-version">v1.0 • MARCH 2026 • INNERG INTEL</p>
+</div>
+
+<!-- TOC PAGE -->
+<div class="page">
+  <div class="toc">
+    <h2 class="toc-title">// TABLE OF CONTENTS</h2>
+    <div class="toc-item">
+      <span>Section 1: Content Creation</span>
+      <span>03</span>
+    </div>
+    <div class="toc-item">
+      <span>Section 2: Research & Strategy</span>
+      <span>06</span>
+    </div>
+    <div class="toc-item">
+      <span>Section 3: Business Operations</span>
+      <span>09</span>
+    </div>
+    <div class="toc-item">
+      <span>Section 4: Design & Creative</span>
+      <span>12</span>
+    </div>
+    <div class="toc-item">
+      <span>Section 5: Personal Productivity</span>
+      <span>14</span>
+    </div>
+    <div class="toc-item">
+      <span>Bonus: Rapid Prompts</span>
+      <span>16</span>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HOW TO USE THIS VAULT</h3>
+    <p class="prompt-desc">This isn't a read-once document. It's a reference tool.</p>
+    <div class="prompt-box">
+1. Find the prompt you need
+2. Copy it
+3. Replace [BRACKETS] with your specifics
+4. Paste into your AI tool
+5. Iterate on the output
+
+<span class="prompt-var">Pro tip:</span> Save your best customized prompts in a separate doc.
+Build your own vault over time.
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: CONTENT CREATION -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">SECTION 01</p>
+    <h2 class="section-title">Content Creation</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HOOK GENERATOR — Basic</h3>
+    <div class="prompt-box">Give me 10 scroll-stopping hooks for a <span class="prompt-var">[PLATFORM]</span> post about <span class="prompt-var">[TOPIC]</span>.
+
+Target audience: <span class="prompt-var">[AUDIENCE]</span>
+Tone: <span class="prompt-var">[casual/professional/controversial]</span>
+
+Make them punchy, under 15 words each.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HOOK GENERATOR — Pattern Interrupt</h3>
+    <div class="prompt-box">Write 5 hooks that start with a controversial statement about <span class="prompt-var">[TOPIC]</span>.
+
+The statement should make <span class="prompt-var">[AUDIENCE]</span> stop scrolling and read.
+Don't be offensive — just unexpected.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HOOK GENERATOR — Story Loop</h3>
+    <div class="prompt-box">Write 3 hooks that open a story loop about <span class="prompt-var">[TOPIC]</span>.
+
+The hook should create curiosity but not reveal the ending.
+Target: <span class="prompt-var">[AUDIENCE]</span> on <span class="prompt-var">[PLATFORM]</span>.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">CAPTION — Educational Post</h3>
+    <div class="prompt-box">Write an educational caption about <span class="prompt-var">[TOPIC]</span> for <span class="prompt-var">[PLATFORM]</span>.
+
+Structure:
+- Hook (1 line)
+- Problem statement (2 lines)
+- Solution (3-5 bullet points)
+- Call to action
+
+Tone: <span class="prompt-var">[TONE]</span>
+Length: <span class="prompt-var">[WORD COUNT]</span> words max.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">CAPTION — Story-Based</h3>
+    <div class="prompt-box">Write a story-based caption about <span class="prompt-var">[TOPIC]</span>.
+
+Include:
+- A personal moment or realization
+- The lesson learned
+- How the reader can apply it
+
+Tone: Authentic, conversational. No corporate speak.
+Target: <span class="prompt-var">[AUDIENCE]</span>.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">CAPTION — Controversial Take</h3>
+    <div class="prompt-box">Write a hot take about <span class="prompt-var">[TOPIC]</span> in <span class="prompt-var">[INDUSTRY]</span>.
+
+The take should:
+- Challenge a common belief
+- Be defensible with logic
+- Spark discussion (not just rage)
+
+Format: Hook + 3 supporting points + open question.</div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="prompt-block">
+    <h3 class="prompt-name">THREAD OUTLINE — Educational</h3>
+    <div class="prompt-box">Create a <span class="prompt-var">[PLATFORM]</span> thread outline about <span class="prompt-var">[TOPIC]</span>.
+
+Structure:
+- Tweet 1: Hook + promise
+- Tweets 2-7: One insight each (bite-sized)
+- Final tweet: Summary + CTA
+
+Make each tweet standalone valuable.
+Target: <span class="prompt-var">[AUDIENCE]</span>.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">CAROUSEL OUTLINE — Instagram</h3>
+    <div class="prompt-box">Outline a 10-slide Instagram carousel about <span class="prompt-var">[TOPIC]</span>.
+
+- Slide 1: Title + hook
+- Slides 2-8: One point per slide
+- Slide 9: Summary
+- Slide 10: CTA + handle
+
+Design notes: Keep text minimal. Each slide should be scannable in 3 seconds.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">VIDEO SCRIPT — 60-Second Short</h3>
+    <div class="prompt-box">Write a 60-second video script for <span class="prompt-var">[PLATFORM]</span> about <span class="prompt-var">[TOPIC]</span>.
+
+Structure:
+- 0-3s: Hook (pattern interrupt)
+- 3-15s: Problem / relatable moment
+- 15-45s: Solution / value
+- 45-60s: CTA
+
+Include visual cues in [brackets].
+Tone: <span class="prompt-var">[TONE]</span></div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">VIDEO SCRIPT — Long-Form YouTube</h3>
+    <div class="prompt-box">Outline a 10-minute YouTube video about <span class="prompt-var">[TOPIC]</span>.
+
+Include:
+- Hook (first 30 seconds)
+- Intro (what they'll learn)
+- 5-7 main sections with timestamps
+- Conclusion + CTA
+
+Target: <span class="prompt-var">[AUDIENCE]</span>
+Searchable title suggestions: 3 options.</div>
+  </div>
+</div>
+
+<!-- SECTION 2: RESEARCH & STRATEGY -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">SECTION 02</p>
+    <h2 class="section-title">Research & Strategy</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">COMPETITOR ANALYSIS — Content Audit</h3>
+    <div class="prompt-box">Analyze the content strategy of <span class="prompt-var">[COMPETITOR/S]</span>.
+Look at their last 20 posts on <span class="prompt-var">[PLATFORM]</span>.
+
+Identify:
+- Top 3 performing content types
+- Their posting frequency
+- Common themes/topics
+- Gaps they're NOT covering
+
+Output: Actionable insights for my content strategy.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">COMPETITOR ANALYSIS — Positioning</h3>
+    <div class="prompt-box">Compare <span class="prompt-var">[MY BRAND]</span> to <span class="prompt-var">[COMPETITOR 1]</span> and <span class="prompt-var">[COMPETITOR 2]</span>.
+
+Analyze:
+- Unique selling propositions
+- Pricing / offer differences
+- Brand voice / personality
+- What they do better / worse than us
+
+Recommend: 3 ways I can differentiate.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">NICHE VALIDATION — Market Research</h3>
+    <div class="prompt-box">I'm considering creating a product/service about <span class="prompt-var">[TOPIC]</span>.
+
+Help me validate:
+1. What are 5 related search terms I should check?
+2. Who are 3 successful competitors?
+3. What gaps exist in the current market?
+4. What would make this unique?
+
+Be honest — if this is a bad idea, tell me why.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">NICHE VALIDATION — Audience Profile</h3>
+    <div class="prompt-box">Create a profile of my ideal customer for <span class="prompt-var">[PRODUCT/SERVICE]</span>.
+
+Include:
+- Demographics (age, location, income)
+- Psychographics (values, fears, desires)
+- Where they spend time online
+- What they've already tried
+- Why those solutions didn't work
+- What they're willing to pay for</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">TREND SPOTTING — Emerging Opportunities</h3>
+    <div class="prompt-box">Based on current trends in <span class="prompt-var">[INDUSTRY]</span>, identify:
+
+1. 3 emerging topics gaining traction
+2. 2 declining topics to avoid
+3. 1 "underrated" opportunity most people miss
+
+For each, explain WHY it's trending/declining.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">TREND SPOTTING — Content Calendar</h3>
+    <div class="prompt-box">Generate 30 content ideas for <span class="prompt-var">[PLATFORM]</span> about <span class="prompt-var">[TOPIC]</span>.
+
+Organize by:
+- 10 educational posts
+- 10 story/personal posts
+- 10 engagement/interactive posts
+
+Each idea should be one sentence max.</div>
+  </div>
+</div>
+
+<!-- SECTION 3: BUSINESS OPERATIONS -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">SECTION 03</p>
+    <h2 class="section-title">Business Operations</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">EMAIL — Cold Outreach</h3>
+    <div class="prompt-box">Write a cold email to <span class="prompt-var">[TARGET]</span> about <span class="prompt-var">[OFFER]</span>.
+
+Requirements:
+- Subject line under 8 words
+- Opening that proves I did research
+- Clear value proposition
+- Soft ask (not pushy)
+- Under 150 words total
+
+Tone: Professional but human.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">EMAIL — Follow-Up Sequence</h3>
+    <div class="prompt-box">Create a 3-email follow-up sequence for <span class="prompt-var">[SCENARIO]</span>.
+
+Email 1: Sent <span class="prompt-var">[X days ago]</span>, no response
+Email 2: Send 3 days after Email 1
+Email 3: Send 5 days after Email 2
+
+Each email should add value, not just nag.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">EMAIL — Sales</h3>
+    <div class="prompt-box">Write a sales email for <span class="prompt-var">[PRODUCT]</span>.
+
+Include:
+- Story-based opening
+- Problem agitation
+- Solution introduction
+- 3 key benefits
+- Social proof placeholder
+- Urgency / scarcity element
+- Clear CTA
+
+Length: 300-400 words.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">PRODUCT DESCRIPTION — E-commerce</h3>
+    <div class="prompt-box">Write a product description for <span class="prompt-var">[PRODUCT]</span>.
+
+Include:
+- Attention-grabbing opening
+- 3-5 bullet point benefits (not features)
+- Who this is for / not for
+- What's included
+- FAQ-style objection handling
+
+Tone: <span class="prompt-var">[TONE]</span>
+Platform: <span class="prompt-var">[PLATFORM]</span></div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">PRODUCT DESCRIPTION — Digital Product</h3>
+    <div class="prompt-box">Write a sales page section for <span class="prompt-var">[DIGITAL PRODUCT]</span>.
+
+Structure:
+- "What you'll learn" section
+- "Who this is for" section
+- "What's included" section
+- Guarantee / risk reversal
+
+Make it scannable. Use short paragraphs.</div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="prompt-block">
+    <h3 class="prompt-name">CUSTOMER RESPONSE — Complaint</h3>
+    <div class="prompt-box">Write a professional response to this customer complaint:
+
+<span class="prompt-var">[PASTE COMPLAINT]</span>
+
+Requirements:
+- Acknowledge their frustration
+- Don't make excuses
+- Offer a specific solution
+- Leave door open for further conversation
+
+Tone: Empathetic but firm.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">CUSTOMER RESPONSE — Positive Review</h3>
+    <div class="prompt-box">Write 5 variations of a reply to a positive review.
+
+Each should:
+- Thank them specifically
+- Reference something they mentioned
+- Encourage future engagement
+- Sound human, not templated
+
+Keep each under 30 words.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">MEETING PREP — Agenda Builder</h3>
+    <div class="prompt-box">Create a meeting agenda for <span class="prompt-var">[MEETING TYPE]</span>.
+
+Include:
+- 3-5 discussion topics
+- Time allocation for each
+- Desired outcomes
+- Pre-work required from attendees
+
+Meeting length: <span class="prompt-var">[DURATION]</span>
+Attendees: <span class="prompt-var">[WHO]</span></div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">MEETING PREP — Post-Meeting Summary</h3>
+    <div class="prompt-box">Summarize this meeting transcript into:
+
+1. Key decisions made
+2. Action items (with owners + deadlines)
+3. Open questions
+4. Next meeting topics
+
+<span class="prompt-var">[PASTE TRANSCRIPT OR NOTES]</span></div>
+  </div>
+</div>
+
+<!-- SECTION 4: DESIGN & CREATIVE -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">SECTION 04</p>
+    <h2 class="section-title">Design & Creative</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">THUMBNAIL — YouTube Concept</h3>
+    <div class="prompt-box">Generate 5 YouTube thumbnail concepts for a video about <span class="prompt-var">[TOPIC]</span>.
+
+For each, describe:
+- Main text (under 5 words)
+- Visual element / imagery
+- Color scheme
+- Emotional tone
+- What makes it clickable</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">THUMBNAIL — Short-Form</h3>
+    <div class="prompt-box">Create 3 thumbnail concepts for a <span class="prompt-var">[PLATFORM]</span> short about <span class="prompt-var">[TOPIC]</span>.
+
+Requirements:
+- Readable in 1 second
+- High contrast
+- Curiosity-inducing
+- Consistent with <span class="prompt-var">[BRAND STYLE]</span></div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">BRAND VOICE — Definition</h3>
+    <div class="prompt-box">Define a brand voice for <span class="prompt-var">[BRAND NAME]</span>.
+
+Include:
+- 3 personality traits
+- What we sound like (examples)
+- What we DON'T sound like (anti-examples)
+- 5 sample phrases in our voice
+- Vocabulary to use / avoid
+
+Target audience: <span class="prompt-var">[AUDIENCE]</span>
+Industry: <span class="prompt-var">[INDUSTRY]</span></div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">BRAND VOICE — Tone Shift</h3>
+    <div class="prompt-box">Rewrite this copy in a <span class="prompt-var">[NEW TONE]</span> voice while keeping the same message:
+
+<span class="prompt-var">[PASTE COPY]</span>
+
+The new tone should be <span class="prompt-var">[ADJECTIVES]</span>.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HEADLINES — A/B Test</h3>
+    <div class="prompt-box">Generate 10 headline variations for <span class="prompt-var">[CONTENT TYPE]</span> about <span class="prompt-var">[TOPIC]</span>.
+
+Mix:
+- 3 curiosity-based
+- 3 benefit-driven
+- 3 controversial/contrarian
+- 1 wildcard
+
+Each under 10 words.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">HEADLINES — SEO-Optimized</h3>
+    <div class="prompt-box">Create 5 SEO-optimized titles for content about <span class="prompt-var">[TOPIC]</span>.
+
+Target keyword: <span class="prompt-var">[KEYWORD]</span>
+
+Requirements:
+- Include keyword naturally
+- Under 60 characters
+- Compelling enough to click
+- Clear what the content delivers</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">A/B TEST — Email Subject Lines</h3>
+    <div class="prompt-box">Create 5 pairs of email subject lines to A/B test for <span class="prompt-var">[CAMPAIGN]</span>.
+
+Each pair should test one variable:
+- Length (short vs long)
+- Tone (curious vs direct)
+- Personalization (with vs without)
+- Urgency (soft vs hard)
+- Benefit (feature vs outcome)</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">A/B TEST — CTA Buttons</h3>
+    <div class="prompt-box">Generate 10 variations of CTA button copy for <span class="prompt-var">[OFFER]</span>.
+
+Mix:
+- Action-oriented ("Get Started")
+- Outcome-oriented ("Save Time Now")
+- Low-commitment ("Learn More")
+- Urgency ("Limited Spots")
+- Personality ("Let's Go")</div>
+  </div>
+</div>
+
+<!-- SECTION 5: PERSONAL PRODUCTIVITY -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">SECTION 05</p>
+    <h2 class="section-title">Personal Productivity</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">DAILY PLANNING — Morning Setup</h3>
+    <div class="prompt-box">Help me plan my day for maximum productivity.
+
+My priorities today:
+1. <span class="prompt-var">[PRIORITY 1]</span>
+2. <span class="prompt-var">[PRIORITY 2]</span>
+3. <span class="prompt-var">[PRIORITY 3]</span>
+
+Available hours: <span class="prompt-var">[X]</span>
+Energy pattern: <span class="prompt-var">[MORNING/AFTERNOON/EVENING person]</span>
+
+Create a time-blocked schedule with breaks built in.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">DAILY PLANNING — Weekly Review</h3>
+    <div class="prompt-box">Guide me through a weekly review.
+
+Ask me questions about:
+- What went well
+- What didn't work
+- Lessons learned
+- Next week's priorities
+
+After I answer, summarize and give me 3 focus areas for next week.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">DECISION FRAMEWORK — Pros/Cons</h3>
+    <div class="prompt-box">I'm deciding whether to <span class="prompt-var">[DECISION]</span>.
+
+Help me think through:
+1. Pros (what I gain)
+2. Cons (what I lose/risk)
+3. Hidden costs people forget
+4. What would have to be true for this to be the right choice
+5. What would make me regret this in 1 year
+
+Be objective. Challenge my assumptions.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">DECISION FRAMEWORK — Opportunity Cost</h3>
+    <div class="prompt-box">I have <span class="prompt-var">[OPPORTUNITY A]</span> and <span class="prompt-var">[OPPORTUNITY B]</span> on the table.
+I can only choose one.
+
+Help me evaluate:
+- Long-term impact of each
+- Which aligns with my goals: <span class="prompt-var">[GOALS]</span>
+- What I'm giving up with each choice
+- The "regret minimization" perspective
+
+Give me a recommendation with reasoning.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">LEARNING — Topic Breakdown</h3>
+    <div class="prompt-box">I want to learn <span class="prompt-var">[TOPIC]</span> as efficiently as possible.
+
+Create a learning roadmap:
+1. Foundational concepts (what to learn first)
+2. Intermediate skills
+3. Advanced applications
+4. Best resources for each stage
+5. Projects to practice
+
+Timeline: <span class="prompt-var">[X weeks/months]</span></div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">LEARNING — Concept Simplification</h3>
+    <div class="prompt-box">Explain <span class="prompt-var">[COMPLEX TOPIC]</span> to me like I'm <span class="prompt-var">[LEVEL]</span>.
+
+Use:
+- Simple analogies
+- Real-world examples
+- No jargon unless necessary
+- A structure: what it is → why it matters → how to use it</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">PROBLEM-SOLVING — Root Cause</h3>
+    <div class="prompt-box">I'm facing this problem: <span class="prompt-var">[PROBLEM]</span>.
+
+Help me find the root cause using "5 Whys" analysis.
+For each answer, ask "why" again until we reach the core issue.
+Then suggest 3 solutions targeting the root cause.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">PROBLEM-SOLVING — Creative Solutions</h3>
+    <div class="prompt-box">I'm stuck on: <span class="prompt-var">[PROBLEM]</span>.
+
+Give me 10 unconventional solutions.
+
+Rules:
+- No obvious answers
+- At least 3 "crazy" ideas
+- Consider what <span class="prompt-var">[SUCCESSFUL PERSON/COMPANY]</span> would do
+- Think about second-order effects</div>
+  </div>
+</div>
+
+<!-- BONUS: RAPID PROMPTS -->
+<div class="page">
+  <div class="section-header">
+    <p class="section-number">BONUS</p>
+    <h2 class="section-title">Rapid Prompts</h2>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">QUICK FIX — Caption Improvement</h3>
+    <div class="prompt-box">Make this caption more <span class="prompt-var">[ENGAGING/PROFESSIONAL/PUNCHY]</span>:
+
+<span class="prompt-var">[PASTE CAPTION]</span>
+
+Keep the same message. Improve the delivery.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">QUICK FIX — Bullet Expander</h3>
+    <div class="prompt-box">Expand each bullet into a full paragraph:
+
+<span class="prompt-var">[PASTE BULLETS]</span>
+
+Maintain <span class="prompt-var">[TONE]</span> voice. Each paragraph: 2-3 sentences.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">QUICK FIX — Content Repurposer</h3>
+    <div class="prompt-box">Take this <span class="prompt-var">[ORIGINAL FORMAT]</span> and repurpose it for <span class="prompt-var">[NEW FORMAT]</span>:
+
+<span class="prompt-var">[PASTE CONTENT]</span>
+
+Adapt the tone and length appropriately.</div>
+  </div>
+  
+  <div class="prompt-block">
+    <h3 class="prompt-name">QUICK FIX — Idea Generator</h3>
+    <div class="prompt-box">Give me 20 ideas for <span class="prompt-var">[TOPIC/FORMAT]</span>.
+
+No explanation needed. Just the ideas.
+Make half obvious, half unexpected.</div>
+  </div>
+  
+  <div class="divider"></div>
+  
+  <div style="text-align: center; margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border);">
+    <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 16px;">INNERG INTEL</p>
+    <p style="font-size: 16px; color: var(--accent); font-weight: 600;">"Evolution favors action."</p>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI in Education Survey — InnerG Intel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --surface-light: #141414;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --border: #1a1a1a;
+      --orange: #ff6b35;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-icon::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+    }
+    
+    .logo-text span {
+      color: var(--accent);
+    }
+    
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    
+    h1 span {
+      color: var(--accent);
+    }
+    
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 17px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    /* Form */
+    .survey-form {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    
+    .question {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+    
+    .question-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    
+    .question label {
+      display: block;
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    
+    .question-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+    
+    /* Input styles */
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    input::placeholder {
+      color: var(--text-muted);
+    }
+    
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    
+    select option {
+      background: var(--surface);
+      color: var(--text);
+    }
+    
+    /* Checkbox grid */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    @media (max-width: 500px) {
+      .checkbox-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    
+    .checkbox-item:hover {
+      border-color: var(--accent);
+    }
+    
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    
+    .checkbox-item label {
+      margin: 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    /* Radio buttons */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    
+    .radio-item:hover {
+      border-color: var(--accent);
+    }
+    
+    .radio-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    
+    .radio-item label {
+      margin: 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    /* Submit */
+    .submit-section {
+      text-align: center;
+      padding-top: 20px;
+    }
+    
+    .submit-btn {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 18px 48px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .submit-btn:hover {
+      background: var(--accent-dim);
+      transform: translateY(-2px);
+    }
+    
+    .submit-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    /* Footer */
+    footer {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    
+    footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <div class="logo-icon"></div>
+        <div class="logo-text">INNERG <span>INTEL</span></div>
+      </div>
+      
+      <p class="tag">// AI IN EDUCATION SURVEY</p>
+      
+      <h1>How Are You <span>Using AI?</span></h1>
+      <p class="subtitle">Help us understand AI adoption in education and workplaces. Takes 2 minutes — get a free prompt guide after.</p>
+    </header>
+    
+    <!-- Survey Form -->
+    <form action="https://formsubmit.co/innergclaw@gmail.com" method="POST" class="survey-form">
+      
+      <input type="hidden" name="_subject" value="AI in Education Survey Response">
+      <input type="hidden" name="_next" value="https://innergclaw.github.io/innerg-learn/prompt-vault.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      
+      <!-- Q1: Role -->
+      <div class="question">
+        <p class="question-num">// QUESTION 01</p>
+        <label>What's your role?</label>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" name="role" id="r1" value="Teacher (K-12)" required>
+            <label for="r1">Teacher (K-12)</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r2" value="Teacher (Higher Ed)">
+            <label for="r2">Teacher (Higher Ed)</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r3" value="Administrator">
+            <label for="r3">Administrator</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r4" value="IT/Tech Staff">
+            <label for="r4">IT/Tech Staff</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r5" value="Corporate Trainer">
+            <label for="r5">Corporate Trainer</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r6" value="Business Owner/Manager">
+            <label for="r6">Business Owner/Manager</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="role" id="r7" value="Other">
+            <label for="r7">Other</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Q2: Institution Type -->
+      <div class="question">
+        <p class="question-num">// QUESTION 02</p>
+        <label>What type of institution/organization?</label>
+        <select name="institution_type" required>
+          <option value="" disabled selected>Select one...</option>
+          <option value="K-12 School">K-12 School</option>
+          <option value="College/University">College/University</option>
+          <option value="Trade/Vocational School">Trade/Vocational School</option>
+          <option value="Corporate/Enterprise">Corporate/Enterprise</option>
+          <option value="Small Business">Small Business</option>
+          <option value="Nonprofit/Org">Nonprofit/Org</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      
+      <!-- Q3: AI Tools Used -->
+      <div class="question">
+        <p class="question-num">// QUESTION 03</p>
+        <label>Which AI tools/models do you use? (Select all that apply)</label>
+        <div class="checkbox-grid">
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t1" value="ChatGPT">
+            <label for="t1">ChatGPT</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t2" value="Claude">
+            <label for="t2">Claude</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t3" value="Gemini">
+            <label for="t3">Gemini</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t4" value="Copilot">
+            <label for="t4">Copilot</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t5" value="Perplexity">
+            <label for="t5">Perplexity</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t6" value="Midjourney/DALL-E">
+            <label for="t6">Midjourney/DALL-E</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t7" value="Custom/Local Models">
+            <label for="t7">Custom/Local Models</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" name="tools" id="t8" value="Other">
+            <label for="t8">Other</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Q4: System Integration -->
+      <div class="question">
+        <p class="question-num">// QUESTION 04</p>
+        <label>Is AI integrated into your organization's systems?</label>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" name="integration" id="i1" value="Yes, fully integrated" required>
+            <label for="i1">Yes, fully integrated</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="integration" id="i2" value="Yes, partially">
+            <label for="i2">Yes, partially</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="integration" id="i3" value="No, but planning to">
+            <label for="i3">No, but planning to</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="integration" id="i4" value="No current plans">
+            <label for="i4">No current plans</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Q5: Biggest Challenge -->
+      <div class="question">
+        <p class="question-num">// QUESTION 05</p>
+        <label>Biggest challenge with AI adoption?</label>
+        <select name="challenge" required>
+          <option value="" disabled selected>Select one...</option>
+          <option value="Cost/Budget">Cost/Budget</option>
+          <option value="Training/Education">Training/Education</option>
+          <option value="Privacy/Security Concerns">Privacy/Security Concerns</option>
+          <option value="Technical Complexity">Technical Complexity</option>
+          <option value="Resistance to Change">Resistance to Change</option>
+          <option value="Don't Know Where to Start">Don't Know Where to Start</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      
+      <!-- Q6: Email -->
+      <div class="question">
+        <p class="question-num">// QUESTION 06</p>
+        <label>Email to receive your free prompt guide</label>
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <p class="question-hint">We'll only use this to send your guide. No spam.</p>
+      </div>
+      
+      <!-- Submit -->
+      <div class="submit-section">
+        <button type="submit" class="submit-btn">SUBMIT & GET FREE GUIDE →</button>
+        <p class="submit-note">Your responses help shape future AI training content.</p>
+      </div>
+      
+    </form>
+    
+    <!-- Footer -->
+    <footer>
+      <p>INNERG INTEL // <a href="https://innergclaw.github.io/innerg-learn/">Learn AI</a> // "Evolution favors action."</p>
+    </footer>
+    
+  </div>
+  
+</body>
+</html>
